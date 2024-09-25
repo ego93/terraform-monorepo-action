@@ -28,8 +28,13 @@ async function run(): Promise<void> {
         throw new Error(`Unknown mode: ${mode}`)
     }
 
+    if (modules.length && ignored) {
+      core.debug(`Found modules before ignore:${modules.map((module) => `\n- ${module}`)}`)
+    }
+    
     if (ignored) {
       const globs = ignored.split('\n').map((item) => item.trim())
+      core.debug(`Globs to ignore: ${globs}`)
       modules = ignore().add(globs).filter(modules)
     }
 
